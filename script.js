@@ -23,8 +23,8 @@ function resetLevel() {
   consecutiveClicks = 0;
 }
 
-window.onload = update;
-window.onclick = () => {
+window.addEventListener('load', update);
+window.addEventListener('click', () => {
   if (!didWin) {
     points += pointsPerClick;
 
@@ -47,4 +47,4 @@ window.onclick = () => {
 
     update();
   }
-};
+});
