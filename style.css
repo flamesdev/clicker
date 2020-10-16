@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Major+Mono+Display');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400');
+
+#header {
+  font-family: 'Major Mono Display';
+  font-size: 3.6em;
+  font-weight: bold;
+  margin-top: 38vh;
+}
+
+#subheader {
+  font-family: 'Montserrat';
+  font-size: 1.8em;
+}
+
+p {
+  text-align: center;
+  color: black;
+  margin: 0px;
+}
+
+body {
+  user-select: none;
+  background-color: white;
+  animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
