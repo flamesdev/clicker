@@ -1,9 +1,16 @@
+/* global header subheader window */
 let points;
 let pointsPerClick;
 let consecutiveClicks;
 let ascension = 0;
 let didWin = false;
 const goal = 100000;
+
+function resetLevel() {
+  points = 0;
+  pointsPerClick = 1;
+  consecutiveClicks = 0;
+}
 
 resetLevel();
 
@@ -15,12 +22,6 @@ function update() {
     header.innerHTML = points;
     subheader.innerHTML = `+${pointsPerClick} ｜ ${Math.floor(points / goal * 100)}% ｜ ${ascension}a`;
   }
-}
-
-function resetLevel() {
-  points = 0;
-  pointsPerClick = 1;
-  consecutiveClicks = 0;
 }
 
 window.addEventListener('load', update);
@@ -38,10 +39,10 @@ window.addEventListener('click', () => {
     } else {
       consecutiveClicks += 2 ** ascension;
 
-      const limit = 10;
-      if (consecutiveClicks >= limit) {
-        pointsPerClick += Math.floor(consecutiveClicks / limit);
-        consecutiveClicks %= limit;
+      const threshold = 10;
+      if (consecutiveClicks >= threshold) {
+        pointsPerClick += Math.floor(consecutiveClicks / threshold);
+        consecutiveClicks %= threshold;
       }
     }
 
