@@ -1,10 +1,9 @@
-/* global header subheader window */
 let points;
 let pointsPerClick;
 let consecutiveClicks;
 let ascension = 0;
 let didWin = false;
-const goal = 100000;
+const GOAL = 100000;
 
 function resetLevel() {
   points = 0;
@@ -20,7 +19,9 @@ function update() {
     subheader.hidden = true;
   } else {
     header.innerHTML = points;
-    subheader.innerHTML = `+${pointsPerClick} ｜ ${Math.floor(points / goal * 100)}% ｜ ${ascension}a`;
+    subheader.innerHTML = `+${pointsPerClick} ｜ ${Math.floor(
+      (points / GOAL) * 100
+    )}% ｜ ${ascension}a`;
   }
 }
 
@@ -29,7 +30,7 @@ window.addEventListener('click', () => {
   if (!didWin) {
     points += pointsPerClick;
 
-    if (points >= goal) {
+    if (points >= GOAL) {
       resetLevel();
       ascension++;
 
@@ -39,10 +40,10 @@ window.addEventListener('click', () => {
     } else {
       consecutiveClicks += 2 ** ascension;
 
-      const threshold = 10;
-      if (consecutiveClicks >= threshold) {
-        pointsPerClick += Math.floor(consecutiveClicks / threshold);
-        consecutiveClicks %= threshold;
+      const THRESHOLD = 10;
+      if (consecutiveClicks >= THRESHOLD) {
+        pointsPerClick += Math.floor(consecutiveClicks / THRESHOLD);
+        consecutiveClicks %= THRESHOLD;
       }
     }
 
