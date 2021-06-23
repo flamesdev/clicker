@@ -1,14 +1,14 @@
 let points;
 let pointsPerClick;
-let consecutiveClicks;
-let ascension = 0;
+let consecutiveClicksCount;
+let ascensionLevel = 0;
 let didWin = false;
-const GOAL = 100000;
+const GOAL = 100_000;
 
 function resetLevel() {
   points = 0;
   pointsPerClick = 1;
-  consecutiveClicks = 0;
+  consecutiveClicksCount = 0;
 }
 
 resetLevel();
@@ -17,36 +17,43 @@ function update() {
   if (didWin) {
     header.innerHTML = '🏆';
     subheader.hidden = true;
-  } else {
-    header.innerHTML = points;
-    subheader.innerHTML = `+${pointsPerClick} ｜ ${Math.floor(
-      (points / GOAL) * 100
-    )}% ｜ ${ascension}a`;
+    return;
   }
+
+  header.innerHTML = points;
+  subheader.innerHTML = `+${pointsPerClick} ｜ ${Math.floor(
+    (points / GOAL) * 100
+  )}% ｜ ${ascensionLevel}a`;
 }
 
 window.addEventListener('load', update);
-window.addEventListener('click', () => {
-  if (!didWin) {
-    points += pointsPerClick;
 
-    if (points >= GOAL) {
-      resetLevel();
-      ascension++;
-
-      if (ascension >= 20) {
-        didWin = true;
-      }
-    } else {
-      consecutiveClicks += 2 ** ascension;
-
-      const THRESHOLD = 10;
-      if (consecutiveClicks >= THRESHOLD) {
-        pointsPerClick += Math.floor(consecutiveClicks / THRESHOLD);
-        consecutiveClicks %= THRESHOLD;
-      }
-    }
-
-    update();
+function onClick() {
+  if (didWin) {
+    return;
   }
-});
+
+  points += pointsPerClick;
+
+  if (points >= GOAL) {
+    resetLevel();
+    ascensionLevel++;
+
+    if (ascensionLevel >= 20) {
+      didWin = true;
+      window.removeEventListener('click', onClick);
+    }
+  } else {
+    consecutiveClicksCount += 2 ** ascensionLevel;
+
+    const THRESHOLD = 10;
+    if (consecutiveClicksCount >= THRESHOLD) {
+      pointsPerClick += Math.floor(consecutiveClicksCount / THRESHOLD);
+      consecutiveClicksCount %= THRESHOLD;
+    }
+  }
+
+  update();
+}
+
+window.addEventListener('click', onClick);
